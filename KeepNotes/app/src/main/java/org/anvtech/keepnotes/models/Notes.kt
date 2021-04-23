@@ -1,4 +1,4 @@
-package org.anvtech.keepnotes
+package org.anvtech.keepnotes.models
 
 import java.util.*
 

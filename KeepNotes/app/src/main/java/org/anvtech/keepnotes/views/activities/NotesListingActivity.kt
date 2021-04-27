@@ -1,17 +1,15 @@
-package org.anvtech.keepnotes.views
+package org.anvtech.keepnotes.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.anvtech.keepnotes.R
-import org.anvtech.keepnotes.models.Notes
 import org.anvtech.keepnotes.viewmodels.NotesViewModel
+import org.anvtech.keepnotes.views.NoteListAdapter
 
 class NotesListingActivity : AppCompatActivity() {
 
@@ -61,5 +59,9 @@ class NotesListingActivity : AppCompatActivity() {
         listNotes.layoutManager = LinearLayoutManager(this)
         listNotes.adapter = noteListAdapter
 
+        fab.setOnClickListener {
+            val intent = Intent(this, CreateNoteActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

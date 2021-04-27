@@ -19,6 +19,8 @@ class NotesViewModel : ViewModel() {
 
     private var loaderLiveData = MutableLiveData<Boolean>()
 
+    private var errorLiveData = MutableLiveData<Throwable>();
+
     fun getNotesListData(): LiveData<List<Notes>> {
         return notesList
     }
@@ -27,7 +29,12 @@ class NotesViewModel : ViewModel() {
         return loaderLiveData
     }
 
+    fun getErrorLiveData(): LiveData<Throwable> {
+        return errorLiveData
+    }
+
     fun fetchNotes() {
+        loaderLiveData.postValue(true)
         val notesListing = notesRepository.getNotesListing()
         notesListing.subscribeOn(Schedulers.newThread())
             .observeOn(Schedulers.computation())
@@ -38,12 +45,12 @@ class NotesViewModel : ViewModel() {
                 }
 
                 override fun onError(e: Throwable?) {
-//                TODO
                     loaderLiveData.postValue(false)
+                    errorLiveData.postValue(e)
                 }
 
                 override fun onComplete() {
-//                    TODO
+                    loaderLiveData.postValue(false)
                 }
 
                 override fun onSubscribe(d: Disposable?) {

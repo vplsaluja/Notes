@@ -26,10 +26,33 @@ class NotesListingActivity : AppCompatActivity() {
         notesViewModel = ViewModelProviders.of(this).get(NotesViewModel::class.java)
 
         notesViewModel.getNotesListData().observe(this,
-            { t -> noteListAdapter.updateAdapter(t) })
+            { t ->
+                layoutError.visibility = View.GONE
+                if (t.isEmpty()) {
+                    txtMessage.visibility = View.VISIBLE
+                    txtMessage.text = getString(R.string.no_data)
+                } else {
+                    txtMessage.visibility = View.GONE
+                    noteListAdapter.updateAdapter(t)
+                }
+            })
+
+        notesViewModel.getErrorLiveData().observe(this, {
+            layoutError.visibility = View.VISIBLE
+            txtErrorMessage.text = getString(R.string.error_message)
+            btnRetry.setOnClickListener {
+                notesViewModel.fetchNotes()
+            }
+        })
 
         notesViewModel.getLoaderLiveData()
-            .observe(this, { t -> progressBar.visibility = if (t) View.VISIBLE else View.GONE })
+            .observe(this, { t ->
+                if (t) {
+                    progressBar.visibility = View.VISIBLE
+                    layoutError.visibility = View.GONE
+                } else
+                    progressBar.visibility = View.GONE
+            })
 
         notesViewModel.fetchNotes()
 

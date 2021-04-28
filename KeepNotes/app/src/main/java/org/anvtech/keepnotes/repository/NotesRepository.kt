@@ -7,7 +7,11 @@ import org.anvtech.keepnotes.network.RetrofitClient
 class NotesRepository {
     private val retrofitApi = RetrofitClient.getApiInstance()
 
-    fun getNotesListing():Observable<List<Notes>> {
+    fun getNotesListing(): Observable<List<Notes>> {
         return retrofitApi.getNotes();
+    }
+
+    fun createNote(note: Notes):Observable<Int> {
+        return retrofitApi.createNote(note)
     }
 }

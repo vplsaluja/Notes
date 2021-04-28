@@ -3,4 +3,8 @@
     <string name="no_data">You don\'t have any pending ToDo</string>
     <string name="error_message">Something went wrong. Please try again later.</string>
     <string name="str_retry">Retry</string>
+    <string name="hint_title">Enter title</string>
+    <string name="hint_desc">Enter description here</string>
+    <string name="save">Save</string>
+    <string name="error_note_empty">Title or Description cannot be left blank.</string>
 </resources>

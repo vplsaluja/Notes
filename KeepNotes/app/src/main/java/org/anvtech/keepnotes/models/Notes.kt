@@ -1,5 +1,9 @@
 package org.anvtech.keepnotes.models
 
-import java.util.*
-
-data class Notes(val id:Integer,val description:String, val title:String, val createdOn:Date, val updatedOn:Date)
+data class Notes(
+    val id: Long = -1,
+    val description: String,
+    val title: String,
+    val createdOn: String = "",
+    val updatedOn: String = ""
+)

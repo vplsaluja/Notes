@@ -12,5 +12,5 @@ interface RetrofitApi {
     fun getNotes(): Observable<List<Notes>>
 
     @POST("/create-note")
-    fun createNote(@Body note: Notes)
+    fun createNote(@Body note: Notes):Observable<Int>
 }

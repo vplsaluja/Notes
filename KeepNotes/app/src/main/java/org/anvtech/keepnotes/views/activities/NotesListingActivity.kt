@@ -52,8 +52,6 @@ class NotesListingActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
             })
 
-        notesViewModel.fetchNotes()
-
         noteListAdapter = NoteListAdapter()
 
         listNotes.layoutManager = LinearLayoutManager(this)
@@ -63,5 +61,10 @@ class NotesListingActivity : AppCompatActivity() {
             val intent = Intent(this, CreateNoteActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        notesViewModel.fetchNotes()
     }
 }

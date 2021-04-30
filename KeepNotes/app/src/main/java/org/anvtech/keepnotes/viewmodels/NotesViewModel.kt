@@ -13,13 +13,16 @@ import org.anvtech.keepnotes.network.RetrofitClient
 import org.anvtech.keepnotes.repository.NotesRepository
 
 class NotesViewModel : ViewModel() {
+
     private val notesRepository = NotesRepository()
 
-    private var notesList = MutableLiveData<List<Notes>>();
+    private var notesList = MutableLiveData<List<Notes>>()
+
+    private var noteLiveData=MutableLiveData<Notes>()
 
     private var loaderLiveData = MutableLiveData<Boolean>()
 
-    private var errorLiveData = MutableLiveData<Throwable>();
+    private var errorLiveData = MutableLiveData<Throwable>()
 
     fun getNotesListData(): LiveData<List<Notes>> {
         return notesList
@@ -31,6 +34,37 @@ class NotesViewModel : ViewModel() {
 
     fun getErrorLiveData(): LiveData<Throwable> {
         return errorLiveData
+    }
+
+    fun getNoteLiveData():LiveData<Notes>{
+        return noteLiveData
+    }
+
+    fun fetchNote(id:Long?){
+        loaderLiveData.postValue(true)
+        val note=notesRepository.getNote(id)
+        note.subscribeOn(Schedulers.newThread())
+            .observeOn(Schedulers.computation())
+            .subscribe(object : Observer<Notes> {
+                override fun onNext(t: Notes?) {
+                    loaderLiveData.postValue(false)
+                    noteLiveData.postValue(t)
+                }
+
+                override fun onError(e: Throwable?) {
+                    loaderLiveData.postValue(false)
+//                    errorLiveData.postValue(e)
+                }
+
+                override fun onComplete() {
+                    loaderLiveData.postValue(false)
+                }
+
+                override fun onSubscribe(d: Disposable?) {
+//                    TODO
+                }
+
+            })
     }
 
     fun fetchNotes() {

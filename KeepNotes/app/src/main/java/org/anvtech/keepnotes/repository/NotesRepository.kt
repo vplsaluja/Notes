@@ -11,7 +11,11 @@ class NotesRepository {
         return retrofitApi.getNotes();
     }
 
-    fun createNote(note: Notes):Observable<Int> {
+    fun getNote(id: Long?): Observable<Notes> {
+        return retrofitApi.getNotes(id)
+    }
+
+    fun createNote(note: Notes): Observable<Long> {
         return retrofitApi.createNote(note)
     }
 }

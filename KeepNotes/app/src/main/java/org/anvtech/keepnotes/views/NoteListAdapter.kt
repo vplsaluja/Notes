@@ -36,6 +36,24 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         notifyDataSetChanged()
     }
 
+    fun updateAdapter(note: Notes) {
+        var indexOf = -1
+        for (tempNote in listNotes) {
+            if (tempNote.id == note.id) {
+                indexOf = listNotes.indexOf(tempNote)
+                break
+            }
+        }
+        if (indexOf != -1) {
+            listNotes.removeAt(indexOf)
+            listNotes.add(indexOf, note)
+        } else {
+            listNotes.add(0, note)
+            indexOf = 0
+        }
+        notifyItemChanged(indexOf)
+    }
+
     class NoteListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtTitle: TextView? = itemView.findViewById(R.id.txtTitle)
         val txtDesc: TextView? = itemView.findViewById(R.id.txtDesc)

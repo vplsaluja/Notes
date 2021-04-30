@@ -1,10 +1,13 @@
 package org.anvtech.keepnotes.views.activities
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_create_note.*
+import org.anvtech.keepnotes.Constants
 import org.anvtech.keepnotes.R
 import org.anvtech.keepnotes.models.Notes
 import org.anvtech.keepnotes.viewmodels.CreateNoteViewModel
@@ -19,7 +22,12 @@ class CreateNoteActivity : AppCompatActivity() {
         val createNoteViewModel = ViewModelProviders.of(this).get(CreateNoteViewModel::class.java)
 
         createNoteViewModel.hasNoteSaved().observe(this, {
-            if (it) {
+            if (!it.equals(-1)) {
+                val intent = Intent()
+                val bundle = Bundle()
+                bundle.putLong(Constants.DATA, it)
+                intent.putExtras(bundle)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             } else {
                 Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show()

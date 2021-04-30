@@ -12,10 +12,10 @@ import org.anvtech.keepnotes.repository.NotesRepository
 
 class CreateNoteViewModel : ViewModel() {
 
-    private var dataSaved = MutableLiveData<Boolean>()
+    private var dataSaved = MutableLiveData<Long>()
     private val noteRepository = NotesRepository()
 
-    fun hasNoteSaved(): LiveData<Boolean> {
+    fun hasNoteSaved(): LiveData<Long> {
         return dataSaved
     }
 
@@ -23,18 +23,18 @@ class CreateNoteViewModel : ViewModel() {
         noteRepository.createNote(note)
             .subscribeOn(Schedulers.newThread())
             .observeOn(Schedulers.computation())
-            .subscribe(object : Observer<Int> {
+            .subscribe(object : Observer<Long> {
                 override fun onSubscribe(d: Disposable?) {
                 }
 
-                override fun onNext(t: Int?) {
-                    dataSaved.postValue(true)
+                override fun onNext(t: Long?) {
+                    dataSaved.postValue(t)
                 }
 
                 override fun onError(e: Throwable?) {
                     e?.printStackTrace()
                     Log.e(CreateNoteViewModel::class.simpleName,"error="+e.toString())
-                    dataSaved.postValue(false)
+                    dataSaved.postValue(-1)
                 }
 
                 override fun onComplete() {

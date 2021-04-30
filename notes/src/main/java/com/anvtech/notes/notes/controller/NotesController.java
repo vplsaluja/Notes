@@ -28,19 +28,22 @@ public class NotesController {
     }
 
     @PostMapping("/create-note")
-    public void createNote(@RequestBody Notes notes) {
-        notesRepository.save(notes);
+    public int createNote(@RequestBody Notes notes) {
+        Notes createdNote = notesRepository.save(notes);
+        return createdNote.getId();
     }
 
     @PutMapping("/create-note")
-    public void updateNote(@RequestBody Notes notes) {
+    public int updateNote(@RequestBody Notes notes) {
         Optional<Notes> byId = notesRepository.findById(notes.getId());
         if (byId.isPresent()) {
             Notes noteToUpdate = byId.get();
             noteToUpdate.setDescription(notes.getDescription());
             noteToUpdate.setTitle(notes.getTitle());
-            notesRepository.save(noteToUpdate);
+            Notes savedNote = notesRepository.save(noteToUpdate);
+            return savedNote.getId();
         }
+        return -1;
     }
 
     @GetMapping("/delete/{id}")

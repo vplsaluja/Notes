@@ -1,14 +1,21 @@
 package org.anvtech.keepnotes.views
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import org.anvtech.keepnotes.Constants
 import org.anvtech.keepnotes.R
 import org.anvtech.keepnotes.models.Notes
+import org.anvtech.keepnotes.views.activities.NoteDetailActivity
+import org.anvtech.keepnotes.views.activities.NotesListingActivity
 
-class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>() {
+class NoteListAdapter(private val activity: NotesListingActivity) :
+    RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>() {
 
     private var listNotes = ArrayList<Notes>()
 
@@ -23,6 +30,13 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         val notes = listNotes[position]
         holder.txtTitle?.text = notes.title
         holder.txtDesc?.text = notes.description
+        holder.parentLayout?.setOnClickListener {
+            val intent = Intent(activity, NoteDetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(Constants.DATA, notes)
+            intent.putExtras(bundle)
+            activity.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -55,6 +69,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
     }
 
     class NoteListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val parentLayout: ConstraintLayout? = itemView.findViewById(R.id.parentLayout)
         val txtTitle: TextView? = itemView.findViewById(R.id.txtTitle)
         val txtDesc: TextView? = itemView.findViewById(R.id.txtDesc)
     }

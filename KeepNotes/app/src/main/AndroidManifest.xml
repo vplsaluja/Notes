@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeepNotes">
-        <activity android:name=".views.activities.CreateNoteActivity"></activity>
+        <activity android:name=".views.activities.NoteDetailActivity"></activity>
+        <activity android:name=".views.activities.CreateNoteActivity" />
         <activity android:name=".views.activities.NotesListingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

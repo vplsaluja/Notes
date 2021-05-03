@@ -59,7 +59,7 @@ class NotesListingActivity : AppCompatActivity() {
             txtMessage.visibility = View.GONE
         })
 
-        noteListAdapter = NoteListAdapter()
+        noteListAdapter = NoteListAdapter(this)
 
         notesViewModel.fetchNotes()
 

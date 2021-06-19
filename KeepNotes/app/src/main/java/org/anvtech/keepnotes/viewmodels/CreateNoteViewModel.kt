@@ -33,11 +33,36 @@ class CreateNoteViewModel : ViewModel() {
 
                 override fun onError(e: Throwable?) {
                     e?.printStackTrace()
-                    Log.e(CreateNoteViewModel::class.simpleName,"error="+e.toString())
+                    Log.e(CreateNoteViewModel::class.simpleName, "error=" + e.toString())
                     dataSaved.postValue(-1)
                 }
 
                 override fun onComplete() {
+                }
+
+            })
+    }
+
+    fun updateNote(note: Notes) {
+        noteRepository.updateNote(note)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(Schedulers.computation())
+            .subscribe(object : Observer<Long> {
+                override fun onSubscribe(d: Disposable?) {
+
+                }
+
+                override fun onNext(t: Long?) {
+                    dataSaved.postValue(t)
+                }
+
+                override fun onError(e: Throwable?) {
+                    e?.printStackTrace()
+                    dataSaved.postValue(-1)
+                }
+
+                override fun onComplete() {
+
                 }
 
             })

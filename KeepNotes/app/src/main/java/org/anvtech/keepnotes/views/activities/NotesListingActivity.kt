@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.anvtech.keepnotes.Constants
@@ -54,7 +55,7 @@ class NotesListingActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
             })
 
-        notesViewModel.getNoteLiveData().observe(this,{
+        notesViewModel.getNoteLiveData().observe(this, {
             noteListAdapter.updateAdapter(it)
             txtMessage.visibility = View.GONE
         })
@@ -64,6 +65,9 @@ class NotesListingActivity : AppCompatActivity() {
         notesViewModel.fetchNotes()
 
         listNotes.layoutManager = LinearLayoutManager(this)
+        listNotes.addItemDecoration(
+            DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL)
+        )
         listNotes.adapter = noteListAdapter
 
         fab.setOnClickListener {
@@ -75,7 +79,7 @@ class NotesListingActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.REQ_CODE_CREATE && resultCode == Activity.RESULT_OK) {
-            val id=data?.getLongExtra(Constants.DATA,-1)
+            val id = data?.getLongExtra(Constants.DATA, -1)
             notesViewModel.fetchNote(id)
         }
     }

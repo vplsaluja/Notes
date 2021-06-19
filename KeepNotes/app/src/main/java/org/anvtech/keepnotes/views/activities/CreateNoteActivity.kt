@@ -19,6 +19,13 @@ class CreateNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_note)
 
+        var note: Notes? = null
+        if (intent.getSerializableExtra(Constants.DATA) != null)
+            note = intent.getSerializableExtra(Constants.DATA) as Notes
+
+        editTitle.setText(note?.title)
+        editDesc.setText(note?.description)
+
         val createNoteViewModel = ViewModelProviders.of(this).get(CreateNoteViewModel::class.java)
 
         createNoteViewModel.hasNoteSaved().observe(this, {
@@ -39,9 +46,23 @@ class CreateNoteActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.error_note_empty), Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val notes =
-                    Notes(title = editTitle.text.toString(), description = editDesc.text.toString())
-                createNoteViewModel.createNote(notes)
+
+                if (note == null) {
+                    val notes =
+                        Notes(
+                            title = editTitle.text.toString(),
+                            description = editDesc.text.toString()
+                        )
+                    createNoteViewModel.createNote(notes)
+                } else {
+                    val notes =
+                        Notes(
+                            id = note.id,
+                            title = editTitle.text.toString(),
+                            description = editDesc.text.toString()
+                        )
+                    createNoteViewModel.updateNote(notes)
+                }
             }
         }
     }

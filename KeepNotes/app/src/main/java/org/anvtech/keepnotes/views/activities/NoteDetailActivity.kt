@@ -1,5 +1,6 @@
 package org.anvtech.keepnotes.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_note_detail.*
@@ -20,5 +21,11 @@ class NoteDetailActivity : AppCompatActivity() {
         txtTitle.text = note.title
         txtDesc.text = note.description
         txtCreated.text = note.createdOn
+
+        fab.setOnClickListener {
+            val intent = Intent(this, CreateNoteActivity::class.java)
+            intent.putExtra(Constants.DATA, note)
+            startActivity(intent)
+        }
     }
 }

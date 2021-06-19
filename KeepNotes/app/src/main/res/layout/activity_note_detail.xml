@@ -35,4 +35,14 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/txtTitle" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@mipmap/icon_edit"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

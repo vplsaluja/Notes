@@ -3,10 +3,7 @@ package org.anvtech.keepnotes.network
 
 import io.reactivex.rxjava3.core.Observable
 import org.anvtech.keepnotes.models.Notes
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface RetrofitApi {
     @GET("/get-notes")
@@ -17,4 +14,7 @@ interface RetrofitApi {
 
     @POST("/create-note")
     fun createNote(@Body note: Notes): Observable<Long>
+
+    @PUT("/create-note")
+    fun updateNote(@Body note:Notes):Observable<Long>
 }

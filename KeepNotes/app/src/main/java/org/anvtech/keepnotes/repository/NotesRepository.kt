@@ -18,4 +18,8 @@ class NotesRepository {
     fun createNote(note: Notes): Observable<Long> {
         return retrofitApi.createNote(note)
     }
+
+    fun updateNote(note: Notes): Observable<Long> {
+        return retrofitApi.updateNote(note)
+    }
 }
